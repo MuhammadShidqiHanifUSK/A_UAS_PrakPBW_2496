@@ -13,7 +13,6 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->date('tanggal');
-            $table->text('catatan')->nullable();
             $table->boolean('paraf_guru')->default(false);
             $table->boolean('paraf_ortu')->default(false);
             $table->timestamps();
