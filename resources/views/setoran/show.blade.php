@@ -1,156 +1,155 @@
 <x-layouts::app title="Detail Setoran">
-    <div style="color: #111827;">
-        <div style="max-width: 56rem; margin: 0 auto; padding: 1.5rem 1rem;">
+<link rel="stylesheet" href="{{ asset('css/hafalan.css') }}">
 
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
-                <h1 style="font-size: 1.5rem; font-weight: 700; color: #1f2937; background: #ffffff; padding: 0.5rem 1rem; border-radius: 0.5rem;">Detail Setoran</h1>
-                <a href="{{ route('setoran.index') }}" style="color: #4b5563; text-decoration: underline;">← Kembali</a>
+<div class="hafalan-wrap">
+    <div class="hafalan-header">
+        <div class="hafalan-title-wrap">
+            <div class="hafalan-icon">🔍</div>
+            <div>
+                <h1 class="hafalan-title">Detail Setoran</h1>
+                <p class="hafalan-subtitle">{{ \Carbon\Carbon::parse($setoran->tanggal)->format('d M Y') }}</p>
             </div>
-
-            {{-- Info Setoran --}}
-            <div style="background: #ffffff; border-radius: 0.5rem; box-shadow: 0 1px 3px rgba(0,0,0,0.1); padding: 1.5rem; margin-bottom: 1.5rem;">
-                <h2 style="font-weight: 600; color: #374151; margin-bottom: 1rem;">Informasi Setoran</h2>
-                <table style="width: 100%; font-size: 0.875rem;">
-                    <tr>
-                        <td style="padding: 0.4rem 0; color: #6b7280; width: 150px;">Santri</td>
-                        <td style="padding: 0.4rem 0; color: #111827; font-weight: 500;">{{ $setoran->user->name }}</td>
-                    </tr>
-                    <tr>
-                        <td style="padding: 0.4rem 0; color: #6b7280;">Tanggal</td>
-                        <td style="padding: 0.4rem 0; color: #111827;">{{ \Carbon\Carbon::parse($setoran->tanggal)->format('d M Y') }}</td>
-                    </tr>
-                    <tr>
-                        <td style="padding: 0.4rem 0; color: #6b7280;">Paraf Guru</td>
-                        <td style="padding: 0.4rem 0;">
-                            @if($setoran->paraf_guru)
-                                <span style="color: #16a34a; font-weight: 600;">✓ Sudah</span>
-                            @else
-                                <span style="color: #dc2626;">✗ Belum</span>
-                            @endif
-                        </td>
-                    </tr>
-                    <tr>
-                        <td style="padding: 0.4rem 0; color: #6b7280;">Paraf Ortu</td>
-                        <td style="padding: 0.4rem 0;">
-                            @if($setoran->paraf_ortu)
-                                <span style="color: #16a34a; font-weight: 600;">✓ Sudah</span>
-                            @else
-                                <span style="color: #dc2626;">✗ Belum</span>
-                            @endif
-                        </td>
-                    </tr>
-                </table>
-            </div>
-
-            {{-- Sabaq --}}
-            <div style="background: #ffffff; border-radius: 0.5rem; box-shadow: 0 1px 3px rgba(0,0,0,0.1); padding: 1.5rem; margin-bottom: 1.5rem;">
-                <h2 style="font-weight: 600; color: #374151; margin-bottom: 1rem;">Sabaq (Hafalan Baru)</h2>
-                @forelse($setoran->sabaq as $sabaq)
-                    <table style="width: 100%; font-size: 0.875rem; margin-bottom: 0.5rem;">
-                        <tr>
-                            <td style="padding: 0.4rem 0; color: #6b7280; width: 150px;">Surah</td>
-                            <td style="padding: 0.4rem 0; color: #111827;">{{ $sabaq->surah->nomor }}. {{ $sabaq->surah->nama_latin }}</td>
-                        </tr>
-                        <tr>
-                            <td style="padding: 0.4rem 0; color: #6b7280;">Ayat</td>
-                            <td style="padding: 0.4rem 0; color: #111827;">{{ $sabaq->ayat_mulai }} - {{ $sabaq->ayat_selesai }}</td>
-                        </tr>
-                        <tr>
-                            <td style="padding: 0.4rem 0; color: #6b7280;">Jumlah Baris</td>
-                            <td style="padding: 0.4rem 0; color: #111827;">{{ $sabaq->jumlah_baris }}</td>
-                        </tr>
-                        <tr>
-                            <td style="padding: 0.4rem 0; color: #6b7280;">Nilai</td>
-                            <td style="padding: 0.4rem 0;">
-                                <span style="background: {{ $sabaq->nilai == 'L' ? '#dcfce7' : ($sabaq->nilai == 'KL' ? '#fef9c3' : '#fee2e2') }}; color: {{ $sabaq->nilai == 'L' ? '#16a34a' : ($sabaq->nilai == 'KL' ? '#854d0e' : '#dc2626') }}; padding: 0.2rem 0.6rem; border-radius: 9999px; font-size: 0.75rem; font-weight: 600;">
-                                    {{ $sabaq->nilai }}
-                                </span>
-                            </td>
-                        </tr>
-                    </table>
-                @empty
-                    <p style="color: #9ca3af; font-size: 0.875rem;">Tidak ada data sabaq.</p>
-                @endforelse
-            </div>
-
-            {{-- Sabqi --}}
-            <div style="background: #ffffff; border-radius: 0.5rem; box-shadow: 0 1px 3px rgba(0,0,0,0.1); padding: 1.5rem; margin-bottom: 1.5rem;">
-                <h2 style="font-weight: 600; color: #374151; margin-bottom: 1rem;">Sabqi (Murajaah Hafalan Baru)</h2>
-                @forelse($setoran->sabqi as $sabqi)
-                    <table style="width: 100%; font-size: 0.875rem; margin-bottom: 0.5rem;">
-                        <tr>
-                            <td style="padding: 0.4rem 0; color: #6b7280; width: 150px;">Surah</td>
-                            <td style="padding: 0.4rem 0; color: #111827;">{{ $sabqi->surah->nomor }}. {{ $sabqi->surah->nama_latin }}</td>
-                        </tr>
-                        <tr>
-                            <td style="padding: 0.4rem 0; color: #6b7280;">Ayat</td>
-                            <td style="padding: 0.4rem 0; color: #111827;">{{ $sabqi->ayat_mulai }} - {{ $sabqi->ayat_selesai }}</td>
-                        </tr>
-                        <tr>
-                            <td style="padding: 0.4rem 0; color: #6b7280;">Jumlah Halaman</td>
-                            <td style="padding: 0.4rem 0; color: #111827;">{{ $sabqi->jumlah_halaman }}</td>
-                        </tr>
-                        <tr>
-                            <td style="padding: 0.4rem 0; color: #6b7280;">Nilai</td>
-                            <td style="padding: 0.4rem 0;">
-                                <span style="background: {{ $sabqi->nilai == 'L' ? '#dcfce7' : ($sabqi->nilai == 'KL' ? '#fef9c3' : '#fee2e2') }}; color: {{ $sabqi->nilai == 'L' ? '#16a34a' : ($sabqi->nilai == 'KL' ? '#854d0e' : '#dc2626') }}; padding: 0.2rem 0.6rem; border-radius: 9999px; font-size: 0.75rem; font-weight: 600;">
-                                    {{ $sabqi->nilai }}
-                                </span>
-                            </td>
-                        </tr>
-                    </table>
-                @empty
-                    <p style="color: #9ca3af; font-size: 0.875rem;">Tidak ada data sabqi.</p>
-                @endforelse
-            </div>
-
-            {{-- Manzil --}}
-            <div style="background: #ffffff; border-radius: 0.5rem; box-shadow: 0 1px 3px rgba(0,0,0,0.1); padding: 1.5rem; margin-bottom: 1.5rem;">
-                <h2 style="font-weight: 600; color: #374151; margin-bottom: 1rem;">Manzil (Murajaah di Rumah)</h2>
-                @forelse($setoran->manzil as $manzil)
-                    <table style="width: 100%; font-size: 0.875rem; margin-bottom: 0.5rem;">
-                        <tr>
-                            <td style="padding: 0.4rem 0; color: #6b7280; width: 150px;">Surah</td>
-                            <td style="padding: 0.4rem 0; color: #111827;">{{ $manzil->surah->nomor }}. {{ $manzil->surah->nama_latin }}</td>
-                        </tr>
-                        <tr>
-                            <td style="padding: 0.4rem 0; color: #6b7280;">Ayat</td>
-                            <td style="padding: 0.4rem 0; color: #111827;">{{ $manzil->ayat_mulai }} - {{ $manzil->ayat_selesai }}</td>
-                        </tr>
-                        <tr>
-                            <td style="padding: 0.4rem 0; color: #6b7280;">Jumlah Halaman</td>
-                            <td style="padding: 0.4rem 0; color: #111827;">{{ $manzil->jumlah_halaman }}</td>
-                        </tr>
-                        <tr>
-                            <td style="padding: 0.4rem 0; color: #6b7280;">Nilai</td>
-                            <td style="padding: 0.4rem 0;">
-                                <span style="background: {{ $manzil->nilai == 'L' ? '#dcfce7' : ($manzil->nilai == 'KL' ? '#fef9c3' : '#fee2e2') }}; color: {{ $manzil->nilai == 'L' ? '#16a34a' : ($manzil->nilai == 'KL' ? '#854d0e' : '#dc2626') }}; padding: 0.2rem 0.6rem; border-radius: 9999px; font-size: 0.75rem; font-weight: 600;">
-                                    {{ $manzil->nilai }}
-                                </span>
-                            </td>
-                        </tr>
-                    </table>
-                @empty
-                    <p style="color: #9ca3af; font-size: 0.875rem;">Tidak ada data manzil.</p>
-                @endforelse
-            </div>
-
-            {{-- Catatan --}}
-            <div style="background: #ffffff; border-radius: 0.5rem; box-shadow: 0 1px 3px rgba(0,0,0,0.1); padding: 1.5rem;">
-                <h2 style="font-weight: 600; color: #374151; margin-bottom: 1rem;">Catatan</h2>
-                @forelse($setoran->catatanSetoran as $catatan)
-                    <div style="border: 1px solid #e5e7eb; border-radius: 0.375rem; padding: 0.75rem; margin-bottom: 0.75rem;">
-                        <div style="display: flex; justify-content: space-between; margin-bottom: 0.25rem;">
-                            <span style="font-weight: 600; font-size: 0.875rem; color: #374151;">{{ $catatan->user->name }}</span>
-                            <span style="font-size: 0.75rem; color: #9ca3af;">{{ $catatan->created_at->format('d M Y H:i') }}</span>
-                        </div>
-                        <p style="font-size: 0.875rem; color: #111827; margin: 0;">{{ $catatan->isi_catatan }}</p>
-                    </div>
-                @empty
-                    <p style="color: #9ca3af; font-size: 0.875rem;">Belum ada catatan.</p>
-                @endforelse
-            </div>
-
         </div>
+        <a href="{{ route('setoran.index') }}" class="btn-kembali">← Kembali</a>
     </div>
+
+    {{-- Info Setoran --}}
+    <div class="hafalan-card">
+        <h2 class="hafalan-card-title">👤 Informasi Setoran</h2>
+        <table class="info-table">
+            <tr>
+                <td class="info-label">Santri</td>
+                <td class="info-value" style="color: #14532d; font-weight: 700;">{{ $setoran->user->name }}</td>
+            </tr>
+            <tr>
+                <td class="info-label">Tanggal</td>
+                <td class="info-value">{{ \Carbon\Carbon::parse($setoran->tanggal)->format('d M Y') }}</td>
+            </tr>
+            <tr>
+                <td class="info-label">Paraf Guru</td>
+                <td class="info-value">
+                    @if($setoran->paraf_guru)
+                        <span class="badge-sudah">✓ Sudah</span>
+                    @else
+                        <span class="badge-belum">✗ Belum</span>
+                    @endif
+                </td>
+            </tr>
+            <tr>
+                <td class="info-label">Paraf Ortu</td>
+                <td class="info-value">
+                    @if($setoran->paraf_ortu)
+                        <span class="badge-sudah">✓ Sudah</span>
+                    @else
+                        <span class="badge-belum">✗ Belum</span>
+                    @endif
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    {{-- Sabaq --}}
+    <div class="hafalan-card">
+        <h2 class="hafalan-card-title">📗 Sabaq (Hafalan Baru)</h2>
+        @forelse($setoran->sabaq as $sabaq)
+            <table class="info-table" style="margin-bottom: 1rem;">
+                <tr>
+                    <td class="info-label">Surah</td>
+                    <td class="info-value">{{ $sabaq->surah->nomor }}. {{ $sabaq->surah->nama_latin }}</td>
+                </tr>
+                <tr>
+                    <td class="info-label">Ayat</td>
+                    <td class="info-value">{{ $sabaq->ayat_mulai }} – {{ $sabaq->ayat_selesai }}</td>
+                </tr>
+                <tr>
+                    <td class="info-label">Jumlah Baris</td>
+                    <td class="info-value">{{ $sabaq->jumlah_baris }} baris</td>
+                </tr>
+                <tr>
+                    <td class="info-label">Nilai</td>
+                    <td class="info-value">
+                        <span class="badge-nilai-{{ strtolower($sabaq->nilai) }}">{{ $sabaq->nilai }}</span>
+                    </td>
+                </tr>
+            </table>
+        @empty
+            <p style="color: #9ca3af; font-size: 0.875rem;">Tidak ada data sabaq.</p>
+        @endforelse
+    </div>
+
+    {{-- Sabqi --}}
+    <div class="hafalan-card">
+        <h2 class="hafalan-card-title">📘 Sabqi (Murajaah Hafalan Baru)</h2>
+        @forelse($setoran->sabqi as $sabqi)
+            <table class="info-table" style="margin-bottom: 1rem;">
+                <tr>
+                    <td class="info-label">Surah</td>
+                    <td class="info-value">{{ $sabqi->surah->nomor }}. {{ $sabqi->surah->nama_latin }}</td>
+                </tr>
+                <tr>
+                    <td class="info-label">Ayat</td>
+                    <td class="info-value">{{ $sabqi->ayat_mulai }} – {{ $sabqi->ayat_selesai }}</td>
+                </tr>
+                <tr>
+                    <td class="info-label">Jumlah Halaman</td>
+                    <td class="info-value">{{ $sabqi->jumlah_halaman }} halaman</td>
+                </tr>
+                <tr>
+                    <td class="info-label">Nilai</td>
+                    <td class="info-value">
+                        <span class="badge-nilai-{{ strtolower($sabqi->nilai) }}">{{ $sabqi->nilai }}</span>
+                    </td>
+                </tr>
+            </table>
+        @empty
+            <p style="color: #9ca3af; font-size: 0.875rem;">Tidak ada data sabqi.</p>
+        @endforelse
+    </div>
+
+    {{-- Manzil --}}
+    <div class="hafalan-card">
+        <h2 class="hafalan-card-title">📙 Manzil (Murajaah di Rumah)</h2>
+        @forelse($setoran->manzil as $manzil)
+            <table class="info-table" style="margin-bottom: 1rem;">
+                <tr>
+                    <td class="info-label">Surah</td>
+                    <td class="info-value">{{ $manzil->surah->nomor }}. {{ $manzil->surah->nama_latin }}</td>
+                </tr>
+                <tr>
+                    <td class="info-label">Ayat</td>
+                    <td class="info-value">{{ $manzil->ayat_mulai }} – {{ $manzil->ayat_selesai }}</td>
+                </tr>
+                <tr>
+                    <td class="info-label">Jumlah Halaman</td>
+                    <td class="info-value">{{ $manzil->jumlah_halaman }} halaman</td>
+                </tr>
+                <tr>
+                    <td class="info-label">Nilai</td>
+                    <td class="info-value">
+                        <span class="badge-nilai-{{ strtolower($manzil->nilai) }}">{{ $manzil->nilai }}</span>
+                    </td>
+                </tr>
+            </table>
+        @empty
+            <p style="color: #9ca3af; font-size: 0.875rem;">Tidak ada data manzil.</p>
+        @endforelse
+    </div>
+
+    {{-- Catatan --}}
+    <div class="hafalan-card">
+        <h2 class="hafalan-card-title">💬 Catatan Ustadz & Orang Tua</h2>
+        @forelse($setoran->catatanSetoran as $catatan)
+            <div style="border: 1px solid #e5e7eb; border-radius: 10px; padding: 1rem; margin-bottom: 0.75rem; background: #f9fafb;">
+                <div style="display: flex; justify-content: space-between; margin-bottom: 0.4rem;">
+                    <span style="font-weight: 700; font-size: 0.875rem; color: #14532d;">{{ $catatan->user->name }}</span>
+                    <span style="font-size: 0.75rem; color: #9ca3af;">{{ $catatan->created_at->format('d M Y H:i') }}</span>
+                </div>
+                <p style="font-size: 0.875rem; color: #374151; margin: 0;">{{ $catatan->isi_catatan }}</p>
+            </div>
+        @empty
+            <p style="color: #9ca3af; font-size: 0.875rem;">Belum ada catatan.</p>
+        @endforelse
+    </div>
+
+</div>
 </x-layouts::app>
