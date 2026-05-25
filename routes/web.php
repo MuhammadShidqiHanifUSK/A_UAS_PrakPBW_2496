@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SetoranController;
+use App\Http\Controllers\SantriController;
 
 Route::view('/', 'welcome')->name('home');
 
@@ -21,6 +22,13 @@ Route::middleware(['auth'])->group(function () {
     Route::middleware(['role:ortu'])->group(function () {
         Route::patch('setoran/{id}/paraf-ortu', [SetoranController::class, 'parafOrtu'])->name('setoran.paraf-ortu');
     });
+
+    // Route khusus santri
+    Route::middleware(['role:santri'])->group(function () {
+        Route::get('riwayat', [SantriController::class, 'index'])->name('santri.index');
+        Route::get('riwayat/{id}', [SantriController::class, 'show'])->name('santri.show');
+    });
+
 });
 
 require __DIR__.'/settings.php';
