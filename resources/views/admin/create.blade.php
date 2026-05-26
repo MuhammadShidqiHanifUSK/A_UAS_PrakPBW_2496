@@ -63,6 +63,22 @@
                     </select>
                     @error('role') <p class="form-error">{{ $message }}</p> @enderror
                 </div>
+
+                {{-- Relasi ortu-santri (muncul kalau role ortu) --}}
+                <div class="hafalan-card" id="ortu-section" style="display:none;">
+                    <h2 class="hafalan-card-title">👨‍👦 Hubungkan ke Santri</h2>
+                    <div class="form-group">
+                        <label class="form-label">Santri</label>
+                        <select name="santri_id" class="form-select">
+                            <option value="">-- Pilih Santri --</option>
+                             @foreach($santris as $santri)
+                                <option value="{{ $santri->id }}" {{ old('santri_id') == $santri->id ? 'selected' : '' }}>
+                                    {{ $santri->name }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -72,4 +88,10 @@
         </div>
     </form>
 </div>
+<script>
+    document.querySelector('select[name="role"]').addEventListener('change', function() {
+        const ortuSection = document.getElementById('ortu-section');
+        ortuSection.style.display = this.value === 'ortu' ? '' : 'none';
+    });
+</script>
 </x-layouts::app>

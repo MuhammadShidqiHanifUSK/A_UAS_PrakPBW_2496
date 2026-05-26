@@ -20,7 +20,8 @@ class AdminController extends Controller
     // Tampilkan form tambah user
     public function create()
     {
-        return view('admin.create');
+        $santris = User::where('role', 'santri')->get();
+        return view('admin.create', compact('santris'));
     }
 
     // Simpan user baru
@@ -33,12 +34,20 @@ class AdminController extends Controller
             'role'     => 'required|in:admin,ustadz,ortu,santri',
         ]);
 
-        User::create([
+        $user = User::create([
             'name'     => $request->name,
             'email'    => $request->email,
             'password' => bcrypt($request->password),
             'role'     => $request->role,
         ]);
+
+        // Simpan relasi ortu-santri jika role ortu
+        if ($request->role == 'ortu' && $request->filled('santri_id')) {
+            OrtuSantri::create([
+                'ortu_id'   => $user->id,
+                'santri_id' => $request->santri_id,
+            ]);
+        }
 
         return redirect()->route('admin.index')
             ->with('success', 'User berhasil ditambahkan!');
