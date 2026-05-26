@@ -14,6 +14,19 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
 Route::middleware(['auth'])->group(function () {
 
+    // Redirect setelah login sesuai role
+    Route::get('/redirect-after-login', function () {
+        $role = auth()->user()->role;
+        return redirect(match($role) {
+            'admin'  => '/admin/users',
+            'ustadz' => '/setoran',
+            'santri' => '/riwayat',
+            'ortu'   => '/setoran-anak',
+            default  => '/dashboard',
+        });
+    });
+
+
     // Route khusus admin
     Route::middleware(['role:admin'])->group(function () {
         Route::resource('admin/users', AdminController::class)->names('admin');
