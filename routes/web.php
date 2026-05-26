@@ -36,6 +36,7 @@ Route::middleware(['auth'])->group(function () {
     Route::middleware(['role:ustadz'])->group(function () {
         Route::resource('setoran', SetoranController::class);
         Route::patch('setoran/{id}/paraf-guru', [SetoranController::class, 'parafGuru'])->name('setoran.paraf-guru');
+        Route::get('santri/{santriId}/riwayat', [SetoranController::class, 'riwayatSantri'])->name('setoran.riwayat-santri');
     });
 
     // Route khusus ortu

@@ -11,11 +11,25 @@ use Illuminate\Http\Request;
 
 class SetoranController extends Controller
 {
-    // Tampilkan daftar semua setoran
+    // Tampilkan daftar semua santri
     public function index()
     {
-        $setorans = Setoran::with('user')->latest()->paginate(10);
-        return view('setoran.index', compact('setorans'));
+        $santris = \App\Models\User::where('role', 'santri')
+            ->withCount('setoran')
+            ->latest()
+            ->paginate(10);
+        return view('setoran.index', compact('santris'));
+    }
+
+    // Tampilkan riwayat setoran per santri
+    public function riwayatSantri($santriId)
+    {
+        $santri = \App\Models\User::where('role', 'santri')->findOrFail($santriId);
+        $setorans = Setoran::with(['sabaq.surah'])
+            ->where('user_id', $santriId)
+            ->latest()
+            ->paginate(10);
+        return view('setoran.riwayat', compact('santri', 'setorans'));
     }
 
     // Tampilkan form tambah setoran

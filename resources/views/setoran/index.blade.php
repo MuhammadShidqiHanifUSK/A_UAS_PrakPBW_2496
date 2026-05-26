@@ -1,13 +1,13 @@
-<x-layouts::app title="Daftar Setoran">
+<x-layouts::app title="Daftar Santri">
 <link rel="stylesheet" href="{{ asset('css/hafalan.css') }}">
 
 <div class="hafalan-wrap">
     <div class="hafalan-header">
         <div class="hafalan-title-wrap">
-            <div class="hafalan-icon">📖</div>
+            <div class="hafalan-icon">👥</div>
             <div>
-                <h1 class="hafalan-title">Daftar Setoran</h1>
-                <p class="hafalan-subtitle">Monitor Hafalan Al-Quran</p>
+                <h1 class="hafalan-title">Daftar Santri</h1>
+                <p class="hafalan-subtitle">Pilih santri untuk lihat riwayat setoran</p>
             </div>
         </div>
         <a href="{{ route('setoran.create') }}" class="btn-tambah">＋ Tambah Setoran</a>
@@ -22,52 +22,31 @@
             <thead>
                 <tr>
                     <th>No</th>
-                    <th>Santri</th>
-                    <th>Tanggal</th>
-                    <th>Paraf Guru</th>
-                    <th>Paraf Ortu</th>
+                    <th>Nama Santri</th>
+                    <th>Total Setoran</th>
                     <th>Aksi</th>
                 </tr>
             </thead>
             <tbody>
-                @forelse($setorans as $setoran)
+                @forelse($santris as $santri)
                     <tr>
                         <td class="no-cell">{{ $loop->iteration }}</td>
-                        <td class="santri-name">{{ $setoran->user->name }}</td>
-                        <td class="tanggal-text">{{ \Carbon\Carbon::parse($setoran->tanggal)->format('d M Y') }}</td>
-                        <td>
-                            @if($setoran->paraf_guru)
-                                <span class="badge-sudah">✓ Sudah</span>
-                            @else
-                                <span class="badge-belum">✗ Belum</span>
-                            @endif
+                        <td class="santri-name">{{ $santri->name }}</td>
+                        <td style="color: #374151;">
+                            <span style="background: #f0fdf4; color: #16a34a; padding: 0.2rem 0.75rem; border-radius: 999px; font-size: 0.8rem; font-weight: 600;">
+                                {{ $santri->setoran_count }} setoran
+                            </span>
                         </td>
                         <td>
-                            @if($setoran->paraf_ortu)
-                                <span class="badge-sudah">✓ Sudah</span>
-                            @else
-                                <span class="badge-belum">✗ Belum</span>
-                            @endif
-                        </td>
-                        <td>
-                            <div class="aksi-wrap">
-                                <a href="{{ route('setoran.show', $setoran->id) }}" class="btn-detail">Detail</a>
-                                <a href="{{ route('setoran.edit', $setoran->id) }}" class="btn-edit">Edit</a>
-                                <form action="{{ route('setoran.destroy', $setoran->id) }}" method="POST"
-                                    onsubmit="return confirm('Yakin ingin menghapus setoran ini?')">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="btn-hapus">Hapus</button>
-                                </form>
-                            </div>
+                            <a href="{{ route('setoran.riwayat-santri', $santri->id) }}" class="btn-detail">Lihat Riwayat</a>
                         </td>
                     </tr>
                 @empty
                     <tr>
-                        <td colspan="6">
+                        <td colspan="4">
                             <div class="empty-state">
-                                <div class="empty-icon">📋</div>
-                                <p>Belum ada data setoran. Klik <strong>Tambah Setoran</strong> untuk memulai.</p>
+                                <div class="empty-icon">👤</div>
+                                <p>Belum ada santri. Tambahkan santri melalui halaman <strong>Manajemen User</strong>.</p>
                             </div>
                         </td>
                     </tr>
@@ -77,7 +56,7 @@
     </div>
 
     <div style="margin-top: 1rem;">
-        {{ $setorans->links() }}
+        {{ $santris->links() }}
     </div>
 </div>
 </x-layouts::app>
