@@ -108,7 +108,7 @@ class SetoranController extends Controller
             ]);
         }
 
-        return redirect()->route('setoran.index')
+        return redirect()->route('setoran.riwayat-santri', $request->user_id)
             ->with('success', 'Setoran berhasil disimpan!');
     }
 
@@ -201,7 +201,7 @@ class SetoranController extends Controller
             $setoran->manzil()->delete();
         }
 
-        return redirect()->route('setoran.index')
+        return redirect()->route('setoran.riwayat-santri', $setoran->user_id)
             ->with('success', 'Setoran berhasil diupdate!');
     }
 
@@ -209,9 +209,10 @@ class SetoranController extends Controller
     public function destroy($id)
     {
         $setoran = Setoran::findOrFail($id);
+        $santriId = $setoran->user_id;
         $setoran->delete();
 
-        return redirect()->route('setoran.index')
+        return redirect()->route('setoran.riwayat-santri', $santriId)
             ->with('success', 'Setoran berhasil dihapus!');
     }
 

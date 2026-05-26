@@ -10,7 +10,7 @@
                 <p class="hafalan-subtitle">{{ \Carbon\Carbon::parse($setoran->tanggal)->format('d M Y') }}</p>
             </div>
         </div>
-        <a href="{{ route('setoran.index') }}" class="btn-kembali">← Kembali</a>
+        <a href="{{ route('setoran.riwayat-santri', $setoran->user_id) }}" class="btn-kembali">← Kembali</a>
     </div>
 
     {{-- Info Setoran --}}
